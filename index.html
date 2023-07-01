@@ -92,20 +92,17 @@
             const reorderedCards = [targetCard, ...otherCards]
 
             setTimeout(() => {
-                while (parent.firstChild) {
-                    parent.removeChild(parent.lastChild);
-                }
-
-                // Remove animations
-                otherCards.forEach((card, i) => card.classList.remove(`move-nth-card-${i+1}`))
+                // Update animations
                 targetCard.classList.remove("cardfall")
-
-                reorderedCards.forEach(node => parent.appendChild(node))
-
+                otherCards.forEach((card, i) => card.classList.remove(`move-nth-card-${i+1}`))
                 targetCard.classList.add("cardinsert")
 
+                // Move targetCard to the back
+                parent.removeChild(targetCard);
+                parent.prepend(targetCard);
+
                 document.querySelector("article:last-child").addEventListener("click", OnClick, { once: true } )
-            }, 280);
+            }, 270);
         }
     </script>
 </html>
