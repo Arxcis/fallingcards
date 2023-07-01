@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <section>
+            <article id="athena" style="background-color: #313959;">
+                <h2>Athena</h2>
+                <p>Goddess of wisdom, courage, and inspiration.</p>
+            </article>
+            <article id="Hermes" style="background-color: #FFC776;">
+                <h2>Hermes</h2>
+                <p>God of travel, communication, and commerce.</p>
+            </article>
+            <article id="Aphrodite" style="background-color: #02CCBA;">
+                <h2>Aphrodite</h2>
+                <p>Goddess of love, beauty, and desire.</p>
+            </article>
+            <article id="Poseidon" style="background-color: #1998D5;">
+                <h2>Poseidon</h2>
+                <p>God of the sea, earthquakes, and storms.</p>
+            </article>
+        </section>
+    </body>
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+        }
+        section {
+            perspective: 100cm;
+            width: 500px;
+            height: 436px;
+        }
+        
+        article {
+            width: 460px;
+            height: 436px;
+            background-color: gainsboro;
+            border-radius: 8px;
+            padding: 0 40px;
+            margin: 5px;
+            position: absolute;
+            background-color: gainsboro;
+            transform-origin: bottom center;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+
+        .cardinsert { animation: cardinsert 280ms ease-in; }
+        @keyframes cardinsert { from { translate: 0 -134px -1400px; opacity: 0;} }
+
+        .cardfall { animation: cardfall 280ms ease-in; }
+        @keyframes cardfall { to { transform: rotate3d(1, 0, 0, -90deg); opacity: 0;} }
+
+        article:nth-child(1) { translate: 0 -146px -1400px; }
+        article:nth-child(2) { translate: 0 -94px -800px; }
+        article:nth-child(3) { translate: 0 -50px -400px; }
+
+        .move-nth-card-1 { animation: move-nth-card-1 280ms ease-in }
+        .move-nth-card-2 { animation: move-nth-card-2 280ms ease-in }
+        .move-nth-card-3 { animation: move-nth-card-3 280ms ease-in }
+        
+        @keyframes move-nth-card-1 { to { translate: 0 -94px -800px; }}
+        @keyframes move-nth-card-2 { to { translate: 0 -50px -400px; }}
+        @keyframes move-nth-card-3 { to { translate: 0 0 0; }}
+
+
+
+
+    </style>
+    <script>
+        document.querySelector("article:last-child").addEventListener("click", OnClick, { once: true } )
+
+        function OnClick({ target }) {
+            const otherCards = document.querySelectorAll("article:nth-child(-n+3)")
+            const targetCard = document.querySelector("article:last-child")
+
+            otherCards[0].classList.remove("cardinsert")
+            const parent = targetCard.parentNode
+
+            // Add animations
+            targetCard.classList.add("cardfall")
+            otherCards.forEach((card, i) => card.classList.add(`move-nth-card-${i+1}`));
+
+            const reorderedCards = [targetCard, ...otherCards]
+
+            setTimeout(() => {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.lastChild);
+                }
+
+                // Remove animations
+                otherCards.forEach((card, i) => card.classList.remove(`move-nth-card-${i+1}`))
+                targetCard.classList.remove("cardfall")
+
+                reorderedCards.forEach(node => parent.appendChild(node))
+
+                targetCard.classList.add("cardinsert")
+
+                document.querySelector("article:last-child").addEventListener("click", OnClick, { once: true } )
+            }, 280);
+        }
+    </script>
+</html>
