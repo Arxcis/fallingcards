@@ -31,13 +31,15 @@
         }
         section {
             perspective: 100cm;
-            width: 500px;
-            height: 436px;
+            min-width: 200px;
+            max-width: 500px;
+            flex: 1;
+            min-height: 436px;
         }
         
         article {
-            width: 460px;
-            height: 436px;
+            width: calc(100% - 90px);
+            height: 100%;
             background-color: gainsboro;
             border-radius: 8px;
             padding: 0 40px;
